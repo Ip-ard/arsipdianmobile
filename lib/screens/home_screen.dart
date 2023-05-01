@@ -1,6 +1,7 @@
 import 'package:arsipdian/screens/login_screen.dart';
 import 'package:arsipdian/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,6 +12,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final storage = new FlutterSecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    readToken();
+  }
+
+  void readToken() async {
+    String? token = await storage.read(key: 'token');
+    Provider.of<Auth>(context, listen: false).tryToken(token: token!);
+    print(token);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
