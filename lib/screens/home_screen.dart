@@ -1,3 +1,4 @@
+import 'package:arsipdian/mainpage/mainlist.dart';
 import 'package:arsipdian/screens/login_screen.dart';
 import 'package:arsipdian/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +34,23 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text('Arsip'),
       ),
-      body: Center(
-        child: Text('Home Screen'),
+      body:
+      Column(
+        children: <Widget>[
+          Center(
+            child: Text('Home Screen')
+          ),
+
+          ElevatedButton(
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> mainList()));
+                },
+              child: Text('Searching data'))
+
+
+        ],
       ),
+
       drawer: Drawer(
         child: Consumer<Auth>(builder: (context, auth,child){
           if (! auth.authenticated){
