@@ -1,16 +1,15 @@
 
 
 import 'dart:io';
-
-import 'package:arsipdian/mainpage/post_list.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 import 'mainlist_detail.dart';
 
 class mainList extends StatefulWidget {
-  const mainList({Key? key}) : super(key: key);
+  //const mainList({Key? key}) : super(key: key);
+
+  late String idx;
 
   @override
   State<mainList> createState() => _mainListState();
@@ -69,7 +68,7 @@ class _mainListState extends State<mainList> {
               child: ListTile(
                 onTap:() {
                   print(jsonList[index]);
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MainList_Detail()));},
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MainListDetail(idx: jsonList[index],)));},
                 title: Text(jsonList[index]['atas_nama']),
                 subtitle: Text(jsonList[index]['tanggal_pembuatan']),
               ),);
