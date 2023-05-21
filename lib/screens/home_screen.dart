@@ -1,9 +1,12 @@
 import 'package:arsipdian/mainpage/mainlist.dart';
+import 'package:arsipdian/percobaan.dart';
 import 'package:arsipdian/screens/login_screen.dart';
 import 'package:arsipdian/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+
+import '../percobaan2.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -45,7 +48,11 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: (){
                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=> mainList()));
                 },
-              child: Text('Searching data'))
+              child: Text('Searching data')),
+
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> percobaan2()));
+          }, child: Text("Percobaan"))
 
 
         ],
