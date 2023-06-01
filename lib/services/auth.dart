@@ -78,4 +78,27 @@ class Auth extends ChangeNotifier{
 
     await storage.delete(key: 'token');
   }
+
+  ////////////////////////////Create Post
+  void buat({required Map creds}) async {
+    print(creds);
+
+    try {
+      Dio.Response response = await dio().post('/posts', data: creds,options: Dio.Options(headers: {'Authorization' : 'Bearer $_token'}));
+
+
+      print(response.data.toString());
+
+      //String token = response.data.toString();
+      //this.tryToken(token: token);
+
+      //_isLoggedIn = true;
+
+      //notifyListeners();
+    }catch(e){
+      print(e);
+    }
+
+
+  }
 }

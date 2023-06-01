@@ -1,5 +1,7 @@
+import 'package:arsipdian/input/addData.dart';
 import 'package:arsipdian/mainpage/mainlist.dart';
 import 'package:arsipdian/percobaan.dart';
+import 'package:arsipdian/percobaan4.dart';
 import 'package:arsipdian/screens/login_screen.dart';
 import 'package:arsipdian/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 import '../percobaan2.dart';
+import '../percobaan3.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,15 +37,21 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: Text('Arsip'),
-      ),
+      ),*/
       body:
-      Column(
+      ListView(
         children: <Widget>[
+          Image.asset("assets/image/ils.png"),
           Center(
             child: Text('Home Screen')
           ),
+          ElevatedButton(
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
+              },
+              child: Text('Login')),
 
           ElevatedButton(
               onPressed: (){
@@ -52,7 +61,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
           ElevatedButton(onPressed: (){
             Navigator.of(context).push(MaterialPageRoute(builder: (context)=> percobaan2()));
-          }, child: Text("Percobaan"))
+          }, child: Text("Percobaan")),
+
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> addData()));
+          }, child: Text("Add Data")),
+
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> percobaan3()));
+          }, child: Text("Pick Picture")),
+
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> percobaan4()));
+          }, child: Text("Pick Picture 2"))
 
 
         ],
