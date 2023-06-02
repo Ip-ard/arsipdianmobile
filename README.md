@@ -1,6 +1,6 @@
 # arsipdian
 
-Ini project aplikasi arsip by dian
+Ini project aplikasi arsip untuk dian
 
 ## Getting Started
 
