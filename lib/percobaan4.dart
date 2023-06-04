@@ -49,7 +49,7 @@ class _percobaan4State extends State<percobaan4> {
                       'Select Image From Camera or Gallary',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.indigo[900],
+                        color: Colors.black.withOpacity(0.8),
                         fontSize: 30,
                       ),
                     ),
@@ -79,7 +79,8 @@ class _percobaan4State extends State<percobaan4> {
               child: new Icon(
                 Icons.image,
               ),
-              backgroundColor: Colors.indigo[900],
+              //backgroundColor: Colors.indigo[900],
+              backgroundColor: Colors.blue,
               onPressed: getImageFromGallery,
             ),
           ),
@@ -90,7 +91,8 @@ class _percobaan4State extends State<percobaan4> {
               child: new Icon(
                 Icons.camera,
               ),
-              backgroundColor: Colors.indigo[900],
+              //backgroundColor: Colors.indigo[900],
+              backgroundColor: Colors.blue,
               onPressed: getImageFromcamera,
             ),
           ),

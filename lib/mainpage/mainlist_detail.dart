@@ -291,7 +291,7 @@ class _MainListDetailState extends State<MainListDetail> {
                         children: [
                           GestureDetector(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (BuildContext contex){return mainList();}));
+                              Navigator.pop(context, MaterialPageRoute(builder: (BuildContext contex){return mainList();}));
                             },
                             child: Icon(Icons.arrow_back,
                             color: Colors.white,),

@@ -9,6 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../percobaan4.dart';
 import '../services/auth.dart';
 
 class addData extends StatefulWidget {
@@ -140,6 +141,18 @@ class _addDataState extends State<addData> {
                                         uploadPDF();
                                       },
                                       child: Text("Upload File")),
+                                  SizedBox(height: 10,),
+                                  Text("Belum punya file yang diupload ?"),
+
+                                  TextButton(
+                                      onPressed: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> percobaan4()));
+                                      },
+                                      child: Text("Scan dulu Document",style: TextStyle(
+                                          color: Colors.blue
+                                      ),),)
+
+                                  
                                   /*ElevatedButton(
                                     onPressed: (){
 
@@ -194,7 +207,9 @@ class _addDataState extends State<addData> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
                                 icon: Icon(Icons.arrow_back,color: Colors.white,)
 
                             ),
