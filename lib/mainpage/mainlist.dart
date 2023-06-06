@@ -1,6 +1,7 @@
 
 
 import 'dart:io';
+import 'package:arsipdian/screens/home_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,11 +21,8 @@ class _mainListState extends State<mainList> {
 
   late List jsonList;
   bool isDataLoaded = false;
+  List<dynamic> jsonListConvert = [];
 
-  @override
-  void initState(){
-    getData();
-  }
 
   //DIOOOO
   void getData() async {
@@ -37,6 +35,8 @@ class _mainListState extends State<mainList> {
           jsonList = response.data['data'] as List;
           print(jsonList.length);
           isDataLoaded = true;
+          jsonListConvert = jsonList;
+          print(jsonListConvert);
         });
       }else{
         print(response.statusCode);
@@ -50,6 +50,33 @@ class _mainListState extends State<mainList> {
 
   TextEditingController _tanggal = TextEditingController();
   TextEditingController _tanggal2 = TextEditingController();
+
+
+
+  @override
+  void initState(){
+    getData();
+  }
+
+  _runFilter(String enteredKeyword) {
+  List<dynamic> results = [];
+
+  if (enteredKeyword.isEmpty) {
+  // if the search field is empty or only contains white-space, we'll display all users
+  results = jsonList;
+  } else {
+  results = jsonListConvert
+      .where((user) =>
+  user["atas_nama"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+      .toList();
+  // we use the toLowerCase() method to make it case-insensitive
+
+  }
+  setState(() {
+    jsonListConvert = results;
+  });
+  }
+
 
 
   @override
@@ -195,6 +222,7 @@ class _mainListState extends State<mainList> {
                           borderRadius: BorderRadius.circular(10)
                         ),
                         child: TextFormField(
+                          onChanged: (value) => _runFilter(value),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Ketikan Sesuatu Disini",
@@ -217,7 +245,9 @@ class _mainListState extends State<mainList> {
                             //size: 30,
                             color: Colors.white,
                             //onPressed: () => Scaffold.of(context).openDrawer(),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pop(MaterialPageRoute(builder: (context)=> HomeScreen()));
+                            },
                           ),
                           ElevatedButton(
                               onPressed: (){},
@@ -228,19 +258,29 @@ class _mainListState extends State<mainList> {
                   ),
                 ),
 
+
+
           !isDataLoaded ? const Center(child: CircularProgressIndicator(),):Expanded(
-            child: ListView.builder(
-                itemCount: jsonList == null ? 0 : jsonList.length,
-                itemBuilder: (BuildContext context,int index ){
-                  return Card(
-                    child: ListTile(
-                      onTap:() {
-                        print(jsonList[index]);
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MainListDetail(idx: jsonList[index],)));},
-                      title: Text(jsonList[index]['atas_nama']),
-                      subtitle: Text(jsonList[index]['tanggal_pembuatan']),
-                    ),);
-                }),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10,left: 10,top: 10),
+              child: ListView.builder(
+                  itemCount: jsonListConvert == null ? 0 : jsonListConvert.length,
+                  itemBuilder: (BuildContext context,int index ){
+                    return Card(
+                      color: Colors.blue,
+                      child: ListTile(
+                        onTap:() {
+                          print(jsonListConvert[index]);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MainListDetail(idx: jsonList[index],)));},
+                        title: Text(jsonListConvert[index]['atas_nama']
+                                ,style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),
+                              ),
+                        subtitle: Text(jsonListConvert[index]['tanggal_pembuatan'],
+                            style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600)
+                              ),
+                      ),);
+                  }),
+            ),
           )
 
 
@@ -264,6 +304,7 @@ class _mainListState extends State<mainList> {
           })*/
     );
   }
+
 
   }
 
