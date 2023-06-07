@@ -22,16 +22,41 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final storage = new FlutterSecureStorage();
 
-  @override
-  void initState() {
-    super.initState();
-    readToken();
-  }
+
 
   void readToken() async {
     String? token = await storage.read(key: 'token');
     Provider.of<Auth>(context, listen: false).tryToken(token: token!);
     print(token);
+    /*if (token != null || token !=""){
+      print("Token null");
+    }else{
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
+    }*/
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    Auth auth = Auth();
+
+    if (mounted) {
+      setState(() {
+        // make your changes here
+        if (! auth.authenticated){
+          print("belum login");
+          //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
+
+        }else{
+          print("sudah login");
+        }
+      });
+    }
+
+
+
+    readToken();
   }
 
 

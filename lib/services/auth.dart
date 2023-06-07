@@ -29,6 +29,7 @@ class Auth extends ChangeNotifier{
         _isLoggedIn = true;
 
         notifyListeners();
+
     }catch(e){
       print(e);
     }

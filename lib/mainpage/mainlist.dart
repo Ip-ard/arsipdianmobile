@@ -1,11 +1,15 @@
 
 
-import 'dart:io';
+import 'dart:convert';
 import 'package:arsipdian/screens/home_screen.dart';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as Dio;
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../services/auth.dart';
+import '../services/dio.dart';
 import 'mainlist_detail.dart';
 
 class mainList extends StatefulWidget {
@@ -19,16 +23,50 @@ class mainList extends StatefulWidget {
 
 class _mainListState extends State<mainList> {
 
+  final storage = new FlutterSecureStorage();
+
   late List jsonList;
   bool isDataLoaded = false;
   List<dynamic> jsonListConvert = [];
 
+  TextEditingController _tanggal = TextEditingController();
+  TextEditingController _tanggal2 = TextEditingController();
+
+  /*void readToken() async {
+    String? token = await storage.read(key: 'token');
+    Provider.of<Auth>(context, listen: false).tryToken(token: token!);
+    print(token);
+  }*/
+  Map<String, String> data = {"start_date":"","end_date":""};
 
   //DIOOOO
   void getData() async {
     try {
-      var response = await Dio()
+      /*var response = await Dio()
           .get('http://10.0.2.2/arsipdian/public/api/posts');
+*/
+
+      ////////////////////////////////sing 2
+      String? token = await storage.read(key: 'token');
+      Provider.of<Auth>(context, listen: false).tryToken(token: token!);
+      print(token);
+
+      /*FormData data = FormData.fromMap({
+        "start_date" : "2023-05-01",
+        "end_date" : "2023-06-10",
+        'atas_nama': _tanggal.text,
+        'keterangan': _tanggal2.text,
+      });*/
+
+
+
+
+
+
+      Dio.Response response = await dio().get('/filter',
+          data: data,
+          options: Dio.Options(headers: {'Authorization': 'Bearer $token'}),
+          );
 
       if(response.statusCode == 200){
         setState(() {
@@ -42,14 +80,16 @@ class _mainListState extends State<mainList> {
         print(response.statusCode);
       }
 
+
+
+
       //print(response);
     } catch (e) {
       print(e);
     }
   }
 
-  TextEditingController _tanggal = TextEditingController();
-  TextEditingController _tanggal2 = TextEditingController();
+
 
 
 
@@ -159,6 +199,9 @@ class _mainListState extends State<mainList> {
                                     if (pickeddate != null){
                                       setState(() {
                                         _tanggal.text = DateFormat('yyyy-MM-dd').format(pickeddate);
+                                        data["start_date"] = _tanggal.text;
+                                        print(data.toString());
+
                                       });
                                     }
                                   },
@@ -197,11 +240,13 @@ class _mainListState extends State<mainList> {
                                     );
                                     if (pickeddate != null){
                                       setState(() {
-                                        _tanggal.text = DateFormat('yyyy-MM-dd').format(pickeddate);
+                                        _tanggal2.text = DateFormat('yyyy-MM-dd').format(pickeddate);
+                                        data["end_date"] = _tanggal2.text;
+                                        print(data.toString());
                                       });
                                     }
                                   },
-                                  controller: _tanggal,
+                                  controller: _tanggal2,
                                   validator: (value) => value!.isEmpty ? 'Masukan Tanggal' : null
                               ),
                             ),
@@ -250,7 +295,11 @@ class _mainListState extends State<mainList> {
                             },
                           ),
                           ElevatedButton(
-                              onPressed: (){},
+                              onPressed: (){
+                                setState(() {
+                                  getData();
+                                });
+                              },
                               child: Text("Cari")),
                         ],),
 
