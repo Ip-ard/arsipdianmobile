@@ -20,7 +20,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  //late var boleh;
+
   final storage = new FlutterSecureStorage();
+  Auth auth2 = Auth();
+  var authBtn = "";
+  bool authBool = false;
 
 
 
@@ -28,11 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
     String? token = await storage.read(key: 'token');
     Provider.of<Auth>(context, listen: false).tryToken(token: token!);
     print(token);
-    /*if (token != null || token !=""){
-      print("Token null");
-    }else{
-      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
-    }*/
+    print(authBool);
+    authBtn = token.toString();
+
   }
 
   @override
@@ -41,10 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Auth auth = Auth();
 
+
+
     if (mounted) {
       setState(() {
         // make your changes here
         if (! auth.authenticated){
+          print(authBool);
           print("belum login");
           //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
 
@@ -133,8 +139,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                             InkWell(
-                              onTap: (){Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => mainList()));},
+                              onTap: (){
+
+
+                                //authBtn != "" ? Navigator.push(context, MaterialPageRoute(builder: (context) => mainList())):
+                                authBool ? Navigator.push(context, MaterialPageRoute(builder: (context) => mainList())):
+                                _key.currentState!.openDrawer()
+                                ;
+
+                                //Navigator.push(context, MaterialPageRoute(builder: (context) => mainList()));
+
+                                },
                               child: Column(
                                 children: [
                                   Container(
@@ -159,8 +174,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
 
                           InkWell(
-                            onTap: (){Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => percobaan4()));},
+                            onTap: (){
+
+                              authBool ? Navigator.push(context, MaterialPageRoute(builder: (context) => percobaan4())):
+                              _key.currentState!.openDrawer()
+                              ;
+
+                              //Navigator.push(context, MaterialPageRoute(builder: (context) => percobaan4()))
+                              ;},
                             child: Column(
                               children: [
                                 Container(
@@ -185,8 +206,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
 
                           InkWell(
-                            onTap: (){Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => addData()));},
+                            onTap: (){
+
+                              authBool ? Navigator.push(context, MaterialPageRoute(builder: (context) => addData())):
+                              _key.currentState!.openDrawer()
+                              ;
+
+                              },
                             child: Column(
                               children: [
                                 Container(
@@ -362,7 +388,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-        
+
 
 
         //////////////////////////////////////DRAWER
@@ -374,10 +400,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ListTile(
                   title: Text("Login"),
                   leading: Icon(Icons.login),
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
+                  onTap: () async{
+
+                    authBool = await Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
+                    //Navigator.of(context).pop(MaterialPageRoute(builder: (context)=> LoginScreen()));
                   },
                 ),
+                SizedBox(height: MediaQuery.of(context).size.height/3,),
+                Center(child: Text("Harap Login Dulu", style: TextStyle(
+                  fontSize: 22,fontWeight: FontWeight.w600
+                ),))
               ],
             );
           }else{
@@ -405,6 +437,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: (){
                     Provider.of<Auth>(context, listen: false)
                         .logout();
+                    authBool = false;
+                    /*setState(() {
+                      authBool;
+                    });*/
                   },
                 )
               ],

@@ -1,3 +1,5 @@
+import 'package:arsipdian/screens/home_screen.dart';
+import 'package:arsipdian/screens/register.dart';
 import 'package:arsipdian/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -74,7 +76,10 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Belum punya akun ?"),
-                  TextButton(onPressed: (){}, child: Text("Buat akun")),
+                  TextButton(onPressed: (){
+                    //Navigator.push(context, MaterialPageRoute(builder: Register()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Register()));
+                  }, child: Text("Buat akun")),
                 ],
               ),
 
@@ -90,7 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     if(_formKey.currentState!.validate()){
                       Provider.of<Auth>(context, listen: false)
                           .login(creds:creds);
-                      Navigator.pop(context);
+                      Navigator.pop(context,true);
+                      //Navigator.pop(MaterialPageRoute(builder: (context)=>HomeScreen(boleh:"boleh")));
                     }
                   },
                   child: Text("Login",style: TextStyle(color: Colors.white,fontSize: 18),),
