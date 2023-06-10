@@ -20,11 +20,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  //late var boleh;
 
   final storage = new FlutterSecureStorage();
-  Auth auth2 = Auth();
-  var authBtn = "";
   bool authBool = false;
 
 
@@ -33,35 +30,20 @@ class _HomeScreenState extends State<HomeScreen> {
     String? token = await storage.read(key: 'token');
     Provider.of<Auth>(context, listen: false).tryToken(token: token!);
     print(token);
+    if(token == null) {
+      authBool = false;
+      print("token null");
+    }else{
+      authBool = true;
+      print("token tidak null");
+    }
     print(authBool);
-    authBtn = token.toString();
 
   }
 
   @override
   void initState() {
     super.initState();
-
-    Auth auth = Auth();
-
-
-
-    if (mounted) {
-      setState(() {
-        // make your changes here
-        if (! auth.authenticated){
-          print(authBool);
-          print("belum login");
-          //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
-
-        }else{
-          print("sudah login");
-        }
-      });
-    }
-
-
-
     readToken();
   }
 
@@ -100,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                       IconButton(
                         //Icons.dashboard,
-                        icon: Icon(Icons.dashboard,size: 30,),
+                        icon: Icon(Icons.menu,size: 30,),
                         //size: 30,
                         color: Colors.white,
                         //onPressed: () => Scaffold.of(context).openDrawer(),

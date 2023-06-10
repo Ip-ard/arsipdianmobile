@@ -207,7 +207,7 @@ class _MainListDetailState extends State<MainListDetail> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 10),
-                        Text("Tanggal Pembuatan",style: GoogleFonts.montserrat(fontSize: 15,fontWeight: FontWeight.bold),),
+                        Text("Tanggal Pembuatan Akta",style: GoogleFonts.montserrat(fontSize: 15,fontWeight: FontWeight.bold),),
                         SizedBox(height: 10),
                         Text(idx["tanggal_pembuatan"]),
                       ],
@@ -303,7 +303,7 @@ class _MainListDetailState extends State<MainListDetail> {
                               color: Colors.white
                             ),
 
-                          ),Icon(Icons.download,color: Colors.white,)
+                          ),Icon(Icons.download,color: Colors.blue,)
                         ],
                       )
                     ],

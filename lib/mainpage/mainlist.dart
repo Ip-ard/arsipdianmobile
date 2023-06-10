@@ -327,6 +327,32 @@ class _mainListState extends State<mainList> {
                         subtitle: Text(jsonListConvert[index]['tanggal_pembuatan'],
                             style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600)
                               ),
+                        trailing: Container(
+                          width: 30,
+                          child: Row(
+                            children: [
+                              Expanded(child: IconButton(
+                                  onPressed: (){
+                                    String pilihan = jsonListConvert[index]['atas_nama'];
+                                    showDialog(
+                                        context: context,
+                                        builder: (context)=>AlertDialog(
+                                          title: Text("Yakin kah kamu?"),
+                                          content: Text("Apakah kamu yakin ingin menghapus data berkas atas nama $pilihan ?"),
+                                          actions: [
+                                            TextButton(onPressed: (){}, child: Text("Ya")),
+                                            TextButton(onPressed: (){}, child: Text("Tidak")),
+                                          ],
+                                        )
+
+
+                                    );
+                                  },
+                                  icon: Icon(Icons.delete,color: Colors.white,))),
+
+                            ],
+                          ),
+                        ),
                       ),);
                   }),
             ),

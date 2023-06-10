@@ -99,6 +99,20 @@ class Auth extends ChangeNotifier{
     }catch(e){
       print(e);
     }
+  }
+
+  void register({required Map creds}) async {
+    print(creds);
+
+    try {
+      Dio.Response response = await dio().post('/register', data: creds);
+      print(response.data.toString());
+
+      String token = response.data.toString();
+
+    }catch(e){
+      print(e);
+    }
 
 
   }
