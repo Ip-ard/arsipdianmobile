@@ -46,7 +46,7 @@ class _percobaan4State extends State<percobaan4> {
                       height: 20,
                     ),
                     Text(
-                      'Select Image From Camera or Gallary',
+                      'Pilih Gambar dari Kamera atau dari galeri',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black.withOpacity(0.8),

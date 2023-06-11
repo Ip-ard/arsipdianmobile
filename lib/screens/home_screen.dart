@@ -1,6 +1,5 @@
 import 'package:arsipdian/input/addData.dart';
 import 'package:arsipdian/mainpage/mainlist.dart';
-import 'package:arsipdian/percobaan.dart';
 import 'package:arsipdian/percobaan4.dart';
 import 'package:arsipdian/screens/login_screen.dart';
 import 'package:arsipdian/services/auth.dart';
@@ -8,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
-import '../percobaan2.dart';
-import '../percobaan3.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -399,23 +396,29 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 DrawerHeader(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
+
+                      Image.asset("assets/image/logoad.png"
+                        ,width: 50,height: 50,
+                      ),
+                      /*CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 50,
-                      ),
+                      ),*/
                       SizedBox(height: 10,),
                       Text(auth.user!.username.toString(),style: TextStyle(color: Colors.white),)
                     ],
                   ),
                   decoration: BoxDecoration(
                     color: Colors.blue,
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(100))
                   ),
                 ),
 
                 ListTile(
                   title: Text("Logout"),
-                  leading: Icon(Icons.logout),
+                  leading: Icon(Icons.logout,color: Colors.blue,),
                   onTap: (){
                     Provider.of<Auth>(context, listen: false)
                         .logout();

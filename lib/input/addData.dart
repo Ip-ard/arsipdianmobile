@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:arsipdian/mainpage/mainlist.dart';
 import 'package:arsipdian/services/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/dio.dart' as Dio;
@@ -33,7 +34,19 @@ class _addDataState extends State<addData> {
   @override
   void initState() {
     super.initState();
+    _atas_nama.text = '';
+    _keterangan.text = '';
+    _tanggal.text = '';
     readToken();
+  }
+
+
+  @override
+  void dispose() {
+    _atas_nama.dispose();
+    _keterangan.dispose();
+    _tanggal.dispose();
+    super.dispose();
   }
 
   void readToken() async {
@@ -123,7 +136,9 @@ class _addDataState extends State<addData> {
                                   new Padding(padding: new EdgeInsets.only(top:20.0)),
 
                                   TextFormField(
+                                    maxLines: 4,
                                       decoration: new InputDecoration(
+                                        alignLabelWithHint: true,
                                           hintText: "Masukan Keterangan",
                                           labelText: "Keterangan",
                                           border: new OutlineInputBorder(
@@ -132,13 +147,16 @@ class _addDataState extends State<addData> {
                                       ),
                                       controller: _keterangan,
                                       validator: (value) => value!.isEmpty ? 'Masukan Keterangan' : null
-                                  ),
+                          ),
                                   SizedBox(height: 20,),
 
                                   ElevatedButton(
                                       onPressed: (){
-                                        _atas_nama.text=="" ? print("masukan atas nama"): _tanggal.text=="" ? print("Masukan tanggal"):_keterangan.text==""?print("Masukan Keterangan"):
-                                        uploadPDF();
+                                        //_atas_nama.text=="" ? print("masukan atas nama"): _tanggal.text=="" ? print("Masukan tanggal"):_keterangan.text==""?print("Masukan Keterangan"):
+
+                                        if(_formKey2.currentState!.validate()) {
+                                          uploadPDF();
+                                        }
                                       },
                                       child: Text("Upload File")),
                                   SizedBox(height: 10,),
@@ -355,8 +373,19 @@ class _addDataState extends State<addData> {
           data: data,
           options: Dio.Options(headers: {'Authorization': 'Bearer $token'}),
           onSendProgress: (int sent, int total) {
+        if(sent == total){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Data Terkirim"),
+          ));
+
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>mainList()));
+        }
         print('$sent $total');
+
       });
+
+
+
       print(response);
     } else {
       print("Result is null");

@@ -24,6 +24,7 @@ class mainList extends StatefulWidget {
 class _mainListState extends State<mainList> {
 
   final storage = new FlutterSecureStorage();
+  late String token2;
 
   late List jsonList;
   bool isDataLoaded = false;
@@ -50,6 +51,7 @@ class _mainListState extends State<mainList> {
       String? token = await storage.read(key: 'token');
       Provider.of<Auth>(context, listen: false).tryToken(token: token!);
       print(token);
+      token2 = token;
 
       /*FormData data = FormData.fromMap({
         "start_date" : "2023-05-01",
@@ -71,10 +73,10 @@ class _mainListState extends State<mainList> {
       if(response.statusCode == 200){
         setState(() {
           jsonList = response.data['data'] as List;
-          print(jsonList.length);
+          //print(jsonList.length);
           isDataLoaded = true;
           jsonListConvert = jsonList;
-          print(jsonListConvert);
+          //print(jsonListConvert);
         });
       }else{
         print(response.statusCode);
@@ -340,8 +342,26 @@ class _mainListState extends State<mainList> {
                                           title: Text("Yakin kah kamu?"),
                                           content: Text("Apakah kamu yakin ingin menghapus data berkas atas nama $pilihan ?"),
                                           actions: [
-                                            TextButton(onPressed: (){}, child: Text("Ya")),
-                                            TextButton(onPressed: (){}, child: Text("Tidak")),
+                                            TextButton(onPressed: () async {
+
+                                              var pilihanid = jsonListConvert[index]['id'];
+                                              print(pilihanid.toString());
+
+                                              Dio.Response response = await dio().delete('/posts/$pilihanid',
+                                                options: Dio.Options(headers: {'Authorization': 'Bearer $token2'}),
+                                              );
+
+                                              setState(() {
+                                                getData();
+                                              });
+                                              print(response);
+
+
+                                              Navigator.of(context, rootNavigator: true).pop('dialog');
+
+                                            }, child: Text("Ya")),
+                                            TextButton(onPressed: () => Navigator.of(context, rootNavigator: true).pop('dialog')
+                                                , child: Text("Tidak")),
                                           ],
                                         )
 

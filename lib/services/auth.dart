@@ -116,4 +116,21 @@ class Auth extends ChangeNotifier{
 
 
   }
+
+  void hapus({required id}) async {
+    print(id);
+
+    try {
+      Dio.Response response = await dio().delete('/posts/$id');
+      print(response.data.toString());
+
+      String token = response.data.toString();
+
+    }catch(e){
+      print(e);
+    }
+
+
+  }
+
 }
