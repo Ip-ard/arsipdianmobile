@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:arsipdian/mainpage/mainlist.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -58,6 +57,7 @@ class _MainListDetailState extends State<MainListDetail> {
           newPath = newPath + "/ArsipDian";
           directory = Directory(newPath);
           print(directory.path);
+
         }else{
           return false;
         }
@@ -79,11 +79,16 @@ class _MainListDetailState extends State<MainListDetail> {
           setState(() {
             progress = downloaded/totalSize;
           });
+
         });
         if(Platform.isIOS){
           await ImageGallerySaver.saveFile(saveFile.path,isReturnPathOfIOS: true);
         }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Tersimpan di $saveFile"),
+        ));
         return true;
+
       }
     }catch(e){
       print(e);
@@ -128,9 +133,8 @@ class _MainListDetailState extends State<MainListDetail> {
       loading = true;
     });
     print("download proses");
-    //bool downloaded = await saveFile("https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4",
-    //bool downloaded = await saveFile("http://10.0.2.2/arsipdian/public/api/download/3uzvHdYgIg1wneVq9ZuL4QTnXiF8Kc.jpg", "3uzvHdYgIg1wneVq9ZuL4QTnXiF8Kc.jpg");
-    bool downloaded = await saveFile("http://10.0.2.2/arsipdian/public/api/download/$namaDoc", namaDoc);
+    //bool downloaded = await saveFile("http://10.0.2.2/arsipdian/public/api/download/$namaDoc", namaDoc);
+    bool downloaded = await saveFile("https://arsipdian.000webhostapp.com/public/api/download/$namaDoc", namaDoc);
 
     if (downloaded){
       print("File downloaded");
@@ -255,11 +259,10 @@ class _MainListDetailState extends State<MainListDetail> {
 
     print(directory);
     print(directory2);
-    String path = "http://10.0.2.2/arsipdian/public/api/download/"+document_name;
+    String path = "https://arsipdian.000webhostapp.com/public/api/download/"+document_name;
     print(path);
     var response = await dio.download(path,'${directory.path}/$document_name');
     var response2 = await dio.download(path,'${directory2!.path}/$document_name');
-    //var response = await dio.download(path,'${getExternalStorageDirectory()}/$document_name');
 
     print("ini response status");
     print(response.statusCode);

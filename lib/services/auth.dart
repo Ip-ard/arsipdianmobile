@@ -1,8 +1,12 @@
+//import "dart:js";
+
 import "package:arsipdian/models/user.dart";
 import "package:arsipdian/services/dio.dart";
 import "package:dio/dio.dart" as Dio;
 import "package:flutter/material.dart";
+import "package:flutter_flushbar/flutter_flushbar.dart";
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
+import "package:fluttertoast/fluttertoast.dart";
 
 
 
@@ -15,6 +19,13 @@ class Auth extends ChangeNotifier{
   User? get user => _user;
 
   final storage = new FlutterSecureStorage();
+
+  /////////////////////////
+
+  final GlobalKey<ScaffoldMessengerState> snackbarKey =
+  GlobalKey<ScaffoldMessengerState>();
+
+  ///////////////////////////
 
   void login({required Map creds}) async {
     print(creds);
@@ -109,10 +120,13 @@ class Auth extends ChangeNotifier{
       print(response.data.toString());
 
       String token = response.data.toString();
+      Fluttertoast.showToast(msg: "Akun berhasil dibuat");
 
     }catch(e){
       print(e);
+      Fluttertoast.showToast(msg: "Tidak berhasil dibuat error : $e");
     }
+
 
 
   }
@@ -132,5 +146,17 @@ class Auth extends ChangeNotifier{
 
 
   }
+
+  /*showPrintedMessage(String title, String msg) {
+    Flushbar(
+      title: title,
+      message: msg,
+      duration: Duration(seconds: 3),
+      icon: Icon(
+        Icons.info,
+        color: Colors.blue,
+      ),
+    )..show(context );
+  }*/
 
 }

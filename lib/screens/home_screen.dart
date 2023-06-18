@@ -1,6 +1,7 @@
 import 'package:arsipdian/input/addData.dart';
 import 'package:arsipdian/mainpage/mainlist.dart';
 import 'package:arsipdian/percobaan4.dart';
+import 'package:arsipdian/scan2.dart';
 import 'package:arsipdian/screens/login_screen.dart';
 import 'package:arsipdian/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -159,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               _key.currentState!.openDrawer()
                               ;
 
-                              //Navigator.push(context, MaterialPageRoute(builder: (context) => percobaan4()))
+                              //Navigator.push(context, MaterialPageRoute(builder: (context) => scan2()))
                               ;},
                             child: Column(
                               children: [
@@ -391,7 +392,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),))
               ],
             );
-          }else{
+          }
+          else if( auth.authenticated && auth.user?.username == null ){
+            return const Center(
+                child: CircularProgressIndicator()
+            );
+          }
+          else{
             return ListView(
               children: [
                 DrawerHeader(

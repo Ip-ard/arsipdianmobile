@@ -7,6 +7,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'dart:typed_data';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:printing/printing.dart';
 
 class percobaan4 extends StatefulWidget {
@@ -101,6 +103,22 @@ class _percobaan4State extends State<percobaan4> {
     );
   }
 
+ /*   Future<Uint8List> savePDF() async {
+    try {
+      //final doc = pw.Document(pageMode: PdfPageMode.outlines);
+      final dir = await getExternalStorageDirectory();
+      final file = File('${dir?.path}/filename.pdf');
+      //return await file.writeAsBytes(await pdf.save());
+      await file.writeAsBytes(doc.save());
+
+      //return await document.save();
+      showPrintedMessage('success', 'saved to $file');
+    } catch (e) {
+      showPrintedMessage('error', e.toString());
+    }
+  }*/
+
+
   getImageFromGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
@@ -123,6 +141,8 @@ class _percobaan4State extends State<percobaan4> {
       }
     });
   }
+
+
 
   Future<Uint8List> generateDocument(
       PdfPageFormat format, imagelenght, image) async {
@@ -153,12 +173,31 @@ class _percobaan4State extends State<percobaan4> {
           build: (context) {
             return pw.Center(
               child: pw.Image(showimage, fit: pw.BoxFit.contain),
+
+
             );
           },
         ),
       );
+
     }
     return await doc.save();
+    //return await doc.savePDF();
+
+
+  }
+
+
+  showPrintedMessage(String title, String msg) {
+    Flushbar(
+      title: title,
+      message: msg,
+      duration: Duration(seconds: 3),
+      icon: Icon(
+        Icons.info,
+        color: Colors.blue,
+      ),
+    )..show(context);
   }
 
 

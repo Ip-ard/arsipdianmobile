@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -70,6 +71,7 @@ class _RegisterState extends State<Register> {
                       labelText: 'Masukan Passwordnya',
                       prefixIcon: Icon(Icons.key)
                   ),
+                  obscureText: true,
                   controller: _passwordController,
                   validator: (value) => value!.isEmpty ? 'Tolong masukan password' : null
               ),
@@ -109,10 +111,12 @@ class _RegisterState extends State<Register> {
                     'lastname' : _namaakhir.text
                   };
 
+
                   if(_formState.currentState!.validate()){
                     Provider.of<Auth>(context, listen: false)
                         .register(creds:creds);
                     Navigator.pop(context,true);
+
                   }
                 },
                 child: Text("Daftar",style: TextStyle(color: Colors.white,fontSize: 18),),
@@ -129,5 +133,17 @@ class _RegisterState extends State<Register> {
 
 
     );
+  }
+
+  showPrintedMessage(String title, String msg) {
+    Flushbar(
+      title: title,
+      message: msg,
+      duration: Duration(seconds: 3),
+      icon: Icon(
+        Icons.info,
+        color: Colors.blue,
+      ),
+    )..show(context);
   }
 }
