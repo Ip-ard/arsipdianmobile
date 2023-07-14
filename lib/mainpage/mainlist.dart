@@ -1,6 +1,5 @@
 
 
-import 'dart:convert';
 import 'package:arsipdian/screens/home_screen.dart';
 import 'package:dio/dio.dart' as Dio;
 import 'package:flutter/material.dart';
@@ -311,7 +310,14 @@ class _mainListState extends State<mainList> {
 
 
 
-          !isDataLoaded ? const Center(child: CircularProgressIndicator(),):Expanded(
+          !isDataLoaded ? Center(child: Column(
+            children: [
+              SizedBox(height: 150,),
+              CircularProgressIndicator(),
+            ],
+          ),)
+
+              :Expanded(
             child: Padding(
               padding: const EdgeInsets.only(right: 10,left: 10,top: 10),
               child: ListView.builder(
@@ -347,7 +353,11 @@ class _mainListState extends State<mainList> {
                                               var pilihanid = jsonListConvert[index]['id'];
                                               print(pilihanid.toString());
 
-                                              Dio.Response response = await dio().delete('/posts/$pilihanid',
+                                              /*Dio.Response response = await dio().delete('/posts/$pilihanid',
+                                                options: Dio.Options(headers: {'Authorization': 'Bearer $token2'}),
+                                              );*/
+
+                                              Dio.Response response = await dio().post('/hapus/$pilihanid',
                                                 options: Dio.Options(headers: {'Authorization': 'Bearer $token2'}),
                                               );
 

@@ -373,6 +373,7 @@ class _addDataState extends State<addData> {
           data: data,
           options: Dio.Options(headers: {'Authorization': 'Bearer $token'}),
           onSendProgress: (int sent, int total) {
+
         if(sent == total){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Data Terkirim"),
@@ -381,6 +382,7 @@ class _addDataState extends State<addData> {
           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>mainList()));
         }
         print('$sent $total');
+
 
       });
 
