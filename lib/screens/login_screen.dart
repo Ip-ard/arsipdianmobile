@@ -34,9 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -59,7 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 20,),
               TextFormField(
                   decoration:new InputDecoration(
-
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
                     labelText: 'Masukan Passwordnya',
                     //prefixIcon: prefixIcon??Icon(Icons.done),
@@ -68,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
                   ),
+                  obscureText: true,
                   controller: _passwordController,
                   validator: (value) => value!.isEmpty ? 'please enter valid password' : null
               ),
